@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TweetCell : UITableViewCell
 
-@property (nonatomic, strong) NSString *tweet;
+@property (nonatomic, strong) Tweet *tweet;
 @property (weak, nonatomic) IBOutlet UIImageView *authorView;
 @property (weak, nonatomic) IBOutlet UILabel *tweetLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
