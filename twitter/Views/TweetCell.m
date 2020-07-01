@@ -13,20 +13,10 @@
 @implementation TweetCell
 
 - (void)refreshData {
-    if (self.tweet.favorited){
-        [self.likeButton setSelected:YES];
-    } else{
-        [self.likeButton setSelected:NO];
-    }
-    
-    if (self.tweet.retweeted){
-        [self.retweetButton setSelected:YES];
-    } else{
-        [self.retweetButton setSelected:NO];
-    }
-    
     self.likesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
     self.retweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
+    [self.retweetButton setSelected:self.tweet.retweeted];
+    [self.likeButton setSelected:self.tweet.favorited];
 }
 
 - (IBAction)didTapRetweet:(id)sender {
