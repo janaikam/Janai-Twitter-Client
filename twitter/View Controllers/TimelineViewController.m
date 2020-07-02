@@ -14,6 +14,7 @@
 #import "ComposeViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "TweetDetailsViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *tweetsArray;
@@ -23,6 +24,7 @@
 @end
 
 @implementation TimelineViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,9 +88,19 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier  isEqual: @"composeSegue"]){
     UINavigationController *navigationController = [segue destinationViewController];
     ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
     composeController.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"tweetSegue"]){
+    UITableViewCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.timelineTableView indexPathForCell:tappedCell];
+    Tweet *tweet = self.tweetsArray[indexPath.row];
+
+    TweetDetailsViewController *tweetDetailsViewController = [segue destinationViewController];
+    
+    tweetDetailsViewController.tweet = tweet;
+    }
 }
 
 
@@ -103,7 +115,7 @@
     cell.tweetLabel.text = tweet.text;
     cell.userLabel.text = [@"@" stringByAppendingString:tweet.user.screenName];
     
-    cell.dateLabel.text = tweet.createdAtString;
+    cell.dateLabel.text = tweet.timeSinceString;
 
     cell.likesLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
     cell.retweetsLabel.text = [NSString stringWithFormat:@"%d", tweet.retweetCount];
@@ -114,10 +126,6 @@
     NSURL *profilePic = [NSURL URLWithString:tweet.user.profileImageURL];
     cell.authorView.image = nil;
     [cell.authorView setImageWithURL:profilePic];
-    
-    
-    
-    
     
     return cell;
 }
