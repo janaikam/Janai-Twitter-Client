@@ -101,7 +101,7 @@
     
     cell.authorLabel.text = tweet.user.name;
     cell.tweetLabel.text = tweet.text;
-    cell.userLabel.text = tweet.user.screenName;
+    cell.userLabel.text = [@"@" stringByAppendingString:tweet.user.screenName];
     cell.dateLabel.text = tweet.createdAtString;
 
     cell.likesLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
